@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Instant;
 
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -18,9 +20,11 @@ public class Expense {
     private Long id;
     @Column(nullable = false , precision = 12 , scale = 2)
     private BigDecimal amount;
+    @Column(length = 255)
     private String description;
-    @Column(nullable = false)
-    private String category;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 50)
+    private Category category;
     @Column(name = "date_spent" , nullable = false)
     private LocalDate dateSpent;
     @Column(name = "created_at" , nullable = false , insertable = false)
@@ -51,11 +55,11 @@ public void setDescription(String description) {
     this.description = description;
 }
 
-public String getCategory() {
+public Category getCategory() {
     return category;
 }
 
-public void setCategory(String category) {
+public void setCategory(Category category) {
     this.category = category;
 }
 
