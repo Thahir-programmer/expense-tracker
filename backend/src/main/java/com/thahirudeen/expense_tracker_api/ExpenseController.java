@@ -9,14 +9,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.validation.annotation.Validated;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/expenses")
+@Validated
 public class ExpenseController {
 
     private final ExpenseService expenseService;
@@ -51,4 +57,12 @@ public class ExpenseController {
     public void delete(@PathVariable Long id) {
         expenseService.delete(id);
     }
+
+    @GetMapping("/monthly-totals")
+public List<CategoryTotal> getMonthlyTotals(
+        @RequestParam int year,
+        @RequestParam @Min(1) @Max(12) int month) {
+
+    return expenseService.getMonthlyTotals(year, month);
+}
 }

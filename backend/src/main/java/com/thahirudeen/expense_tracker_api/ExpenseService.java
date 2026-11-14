@@ -3,6 +3,7 @@ package com.thahirudeen.expense_tracker_api;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.time.LocalDate;
 
 import org.springframework.data.domain.Sort;
 
@@ -62,5 +63,14 @@ public void delete(Long id) {
             .orElseThrow(() -> new ExpenseNotFoundException(id));
 
     expenseRepository.delete(expense);
+}
+
+@Transactional(readOnly = true)
+public List<CategoryTotal> getMonthlyTotals(int year, int month) {
+
+    LocalDate start = LocalDate.of(year, month, 1);
+    LocalDate end = start.plusMonths(1);
+
+    return expenseRepository.findCategoryTotalsBetween(start, end);
 }
 }
