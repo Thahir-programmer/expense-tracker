@@ -9,6 +9,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
+import org.hibernate.annotations.Generated;
+import org.hibernate.generator.EventType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
@@ -27,6 +29,7 @@ public class Expense {
     private Category category;
     @Column(name = "date_spent" , nullable = false)
     private LocalDate dateSpent;
+    @Generated(event = EventType.INSERT)
     @Column(name = "created_at" , nullable = false , insertable = false)
     private Instant createdAt;
 
